@@ -104,6 +104,19 @@ nav { display: flex; background: #0a0a0a; border-top: 1px solid #1a1a1a; padding
       <input id="newPass" type="password" placeholder="New Password">
       <button class="action-btn" onclick="updateProfile('password')">CHANGE PASSWORD</button>
     </div>
+    <div style="background:var(--panel); padding:15px; border-radius:15px; border:1px solid #222; margin-top:15px;">
+  
+  <div style="color:#888; font-size:11px; font-weight:bold; text-transform:uppercase; margin-bottom:10px;">
+    Theme Color (updates instantly)
+  </div>
+
+
+  <input type="color" id="colorPicker" style="width:100%; height:50px; border:none; border-radius:12px;">
+
+  <button class="logout-btn" onclick="resetTheme()" style="margin-top:10px;">
+    RESET DEFAULT
+  </button>
+</div>
 
     <button onclick="logout()" class="logout-btn">LOGOUT</button>
   </div>
@@ -276,6 +289,35 @@ async function updateProfile(type) {
 
 function logout() { localStorage.clear(); location.reload(); }
 if(userID) loadHome();
+
+
+
+const colorPicker = document.getElementById("colorPicker");
+
+const savedColor = localStorage.getItem("themeColor");
+
+// apply saved color on load
+if (savedColor) {
+  document.documentElement.style.setProperty("--green", savedColor);
+}
+
+// when user picks color
+if (colorPicker) {
+  colorPicker.value = savedColor || "#00d95a";
+
+  colorPicker.addEventListener("input", (e) => {
+    const color = e.target.value;
+    document.documentElement.style.setProperty("--green", color);
+    localStorage.setItem("themeColor", color);
+  });
+}
+
+function resetTheme() {
+  localStorage.removeItem("themeColor");
+  document.documentElement.style.setProperty("--green", "#00d95a");
+  if (colorPicker) colorPicker.value = "#00d95a";
+}
+
 </script>
 </body>
 </html>
